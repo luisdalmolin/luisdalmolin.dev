@@ -1,0 +1,4 @@
+baseURL = "https://luisdalmolin.dev/"
+languageCode = "en-us"
+title = "Luis Dalmolin"
+theme = "minimalist"

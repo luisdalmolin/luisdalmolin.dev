@@ -1,0 +1,19 @@
+{{ define "main" }}
+    <article class="text-gray-500 text-xl w-full">
+        <div class="w-3/5 leading-loose content mb-10">
+            {{ .Content }}
+        </div>
+
+        <hr class="mb-10">
+
+        <!-- listing recent blog posts -->
+        {{ range first 10 .Site.Pages }}
+            {{ if .IsPage }}
+                <div class="mb-10">
+                    <p class="mb-2"><a href="{{ .Permalink }}" class="text-gray-400 font-bold">{{ .Title }}</a></p>
+                    <p class="inline text-sm bg-red-400 text-white px-4 py-2">{{ .PublishDate.Format "January, 2006" }}</p>
+                </div>
+            {{ end }}
+        {{ end }}
+    </article>
+{{ end }}
