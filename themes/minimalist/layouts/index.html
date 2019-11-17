@@ -4,14 +4,15 @@
             {{ .Content }}
         </div>
 
-        <hr class="mb-10">
+        <hr class="mb-10 bt-0 border-gray-700">
 
         <!-- listing recent blog posts -->
         {{ range first 10 .Site.Pages }}
-            {{ if .IsPage }}
+            <!-- only list blog posts -->
+            {{ if (and (eq .Section "blog") (.IsPage)) }}
                 <div class="mb-10">
                     <p class="mb-2"><a href="{{ .Permalink }}" class="text-gray-400 font-bold">{{ .Title }}</a></p>
-                    <p class="inline text-sm bg-red-400 text-white px-4 py-2">{{ .PublishDate.Format "January, 2006" }}</p>
+                    <p class="inline text-xs bg-red-400 text-white px-4 py-2">{{ .PublishDate.Format "January, 2006" }}</p>
                 </div>
             {{ end }}
         {{ end }}

@@ -2,10 +2,69 @@ html, body {
   font-family: 'Lato', sans-serif;
 }
 
+.content {
+  @apply text-lg;
+  @apply leading-relaxed;
+  @apply text-gray-400;
+}
+
+.content ul {
+  @apply mb-6;
+}
+
+.content ul li {
+  @apply mb-2;
+  @apply pl-4;
+  @apply list-disc;
+  @apply list-inside;
+}
+
+.content p {
+  @apply mb-8;
+}
+
+.content p ~ .badges {
+  @apply -mt-4;
+}
+
+.content code {
+  @apply bg-gray-200;
+  @apply text-gray-800;
+  @apply text-base;
+  @apply px-2;
+  @apply py-1;
+  @apply mx-1;
+}
+
+.content pre {
+  @apply bg-gray-200;
+  @apply p-6;
+  @apply mb-6;
+}
+
+.content pre code {
+  @apply bg-transparent;
+  @apply p-0;
+}
+
 .content a {
   @apply text-red-300;
 }
 
 .content a:hover {
   @apply text-red-400;
+}
+
+.content hr {
+  @apply mb-6;
+  @apply mt-0;
+  @apply border-gray-700;
+}
+
+.badges {
+  @apply flex;
+}
+
+.badges a {
+  @apply pr-4;
 }

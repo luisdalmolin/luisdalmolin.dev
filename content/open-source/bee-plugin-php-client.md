@@ -1,0 +1,21 @@
+---
+author:
+title: Bee Plugin PHP Client
+date: 2019-09-10T19:30:04-03:00
+link: https://github.com/kirschbaum-development/laravel-test-runner-container
+type: package
+---
+
+PHP client to interact with Bee's plugin API. Includes the Message Services API and a convenient way to use authorization.
+
+<div class="badges">
+<a href="https://packagist.org/packages/kirschbaum-development/bee-plugin-php-client" target="_blank">
+    <img src="https://img.shields.io/packagist/v/kirschbaum-development/bee-plugin-php-client.svg?style=flat-square" alt="Latest Version on Packagist">
+</a>
+<a href="https://travis-ci.org/kirschbaum-development/bee-plugin-php-client" target="_blank">
+    <img src="https://travis-ci.org/kirschbaum-development/bee-plugin-php-client.svg?branch=master&style=flat-square" alt="Build Status">
+</a>
+<a href="https://packagist.org/packages/kirschbaum-development/bee-plugin-php-client" target="_blank">
+    <img src="https://img.shields.io/packagist/dt/kirschbaum-development/bee-plugin-php-client.svg?style=flat-square" alt="Total Downloads">
+</a>
+</div>

@@ -1,0 +1,30 @@
+{{ define "main" }}
+
+<article class="text-white">
+    <hr class="mb-10 bt-0 border-gray-700">
+
+    <div class="mb-8">
+        <h1 class="inline text-2xl pb-2 text-gray-400 font-bold border-b border-red-400">Open Source</h1>
+    </div>
+
+    <div class="content">
+        {{ .Content }}
+    </div>
+
+    <hr class="mb-10 bt-0 border-gray-700">
+
+    <div>
+        {{ range .Pages }}
+            <div class="mb-10">
+                <h3 class="inline-block mb-2 text-red-400 hover:text-red-500 text-xl font-bold"><a href="{{ .Params.link }}" target="_blank">{{ .Title }}</a></h3>
+                <div class="content text-red-100">
+                    {{ .Content }}
+                </div>
+            </div>
+
+            <hr class="mb-10 bt-0 border-gray-700">
+        {{ end }}
+    </div>
+</article>
+
+{{ end }}

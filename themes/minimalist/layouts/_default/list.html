@@ -1,8 +1,17 @@
 {{ define "main" }}
-{{ range .Pages }}
-    <article class="text-gray-700 mx-4 sm:mx-12 mb-4">
-        <h1 class="font-bold font-thin text-3xl text-gray-700"><a href="{{ .Permalink }}">{{ .Title }}</a></h1>
-        {{ .Content }}
-    </article>
-{{ end }}
+<article class="text-gray-500 text-xl w-full">
+    <hr class="mb-10 bt-0 border-gray-700">
+
+    <div class="mb-8">
+        <h1 class="inline text-2xl pb-2 text-gray-400 font-bold border-b border-red-400">Blog</h1>
+    </div>
+
+    <!-- listing recent blog posts -->
+    {{ range .Pages }}
+        <div class="mb-10">
+            <p class="mb-2"><a href="{{ .Permalink }}" class="text-gray-400 font-bold">{{ .Title }}</a></p>
+            <p class="inline text-xs bg-red-400 text-white px-4 py-2">{{ .PublishDate.Format "January, 2006" }}</p>
+        </div>
+    {{ end }}
+</article>
 {{ end }}

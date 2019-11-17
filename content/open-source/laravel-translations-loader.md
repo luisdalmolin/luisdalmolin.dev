@@ -1,0 +1,24 @@
+---
+author:
+title: Laravel Translations Loader
+date: 2019-11-10T19:30:04-03:00
+link: https://github.com/kirschbaum-development/laravel-translations-loader
+type: package
+---
+
+Webpack loader to import Laravel translation files (PHP or JSON) into your JS bundle as JSON.
+
+<div class="badges">
+<a href="https://www.npmjs.com/package/@kirschbaum-development/laravel-translations-loader" target="_blank">
+    <img src="https://img.shields.io/npm/v/@kirschbaum-development/laravel-translations-loader.svg?style=flat-square">
+</a>
+<a href="https://www.npmjs.com/package/@kirschbaum-development/laravel-translations-loader" target="_blank">
+    <img src="https://img.shields.io/npm/dt/@kirschbaum-development/laravel-translations-loader.svg?style=flat-square">
+</a>
+<a href="https://www.npmjs.com/package/@kirschbaum-development/laravel-translations-loader" target="_blank">
+    <img src="https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square">
+</a>
+<a href="https://github.com/kirschbaum-development/laravel-translations-loader/actions" target="_blank">
+    <img src="https://github.com/kirschbaum-development/laravel-translations-loader/workflows/CI/badge.svg?style=flat-square">
+</a>
+</div>

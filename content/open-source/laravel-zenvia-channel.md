@@ -1,0 +1,21 @@
+---
+author:
+title: Laravel Zenvia Channel
+date: 2018-11-10T19:30:04-03:00
+link: https://github.com/luisdalmolin/laravel-zenvia-channel
+type: package
+---
+
+Laravel Notification Channel to send Zenvia SMS messages using Zenvia API.
+
+<div class="badges">
+<a href="https://packagist.org/packages/luisdalmolin/laravel-zenvia-channel" target="_blank">
+    <img src="https://img.shields.io/packagist/v/luisdalmolin/laravel-zenvia-channel.svg?style=flat-square" alt="Latest Version on Packagist">
+</a>
+<a href="https://github.com/luisdalmolin/laravel-zenvia-channel/blob/master/LICENSE.md" target="_blank">
+    <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License">
+</a>
+<a href="https://packagist.org/packages/luisdalmolin/laravel-zenvia-channel" target="_blank">
+    <img src="https://img.shields.io/packagist/dt/luisdalmolin/laravel-zenvia-channel.svg?style=flat-square" alt="Total Downloads">
+</a>
+</div>
