@@ -18,6 +18,47 @@ The Github repository can be found at [Laravel Test Runner Container](https://gi
 
 We also created this [example repository](https://github.com/luisdalmolin/laravel-ci-test) which is using the setup mentioned below to run the test suite.
 
-<br>
+Alright, let's get into it!
+
+## Setting up the Github Action
+
+You may need to tweak a few things, but basically you should be able to just copy and paste the following configuration to your Github actions.
+
+`.github/workflows/ci.yml`
+{{< highlight yml >}}on: push
+name: CI
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:7.3.0
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Install composer dependencies
+      run: |
+        composer install --no-scripts
+
+    - name: Prepare Laravel Application
+      run: |
+        cp .env.ci .env
+        php artisan key:generate
+
+    - name: Run Testsuite
+      run: vendor/bin/phpunit tests/
+{{< /highlight >}}
 
 Continue reading at https://kirschbaumdevelopment.com/news-articles/using-github-actions-to-setup-ci-cd-with-laravel-and-mysql.

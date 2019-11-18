@@ -23,6 +23,14 @@ html, body {
   @apply mb-8;
 }
 
+.content h2 {
+  @apply mt-4;
+  @apply mb-4;
+  @apply text-2xl;
+  @apply font-bold;
+  @apply text-white;
+}
+
 .content p ~ .badges {
   @apply -mt-4;
 }
@@ -67,4 +75,9 @@ html, body {
 
 .badges a {
   @apply pr-4;
+}
+
+.highlight pre code {
+  color: inherit !important;
+  background-color: inherit !important;
 }
