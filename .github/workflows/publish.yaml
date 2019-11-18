@@ -16,4 +16,4 @@ jobs:
     - run: npm install netlify-cli -g
     - run: npm install --prefix themes/minimalist
     - run: hugo
-    - run: netlify deploy --prod --auth "${{ secrets.NETLIFY_AUTH_TOKEN }}" --site "${{ secrets.NETLIFY_SITE_ID }}" --dir "public"
+    - run: netlify deploy --auth "${{ secrets.NETLIFY_AUTH_TOKEN }}" --site "${{ secrets.NETLIFY_SITE_ID }}" --dir "public" --prod
