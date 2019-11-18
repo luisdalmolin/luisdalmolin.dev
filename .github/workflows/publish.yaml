@@ -1,7 +1,7 @@
 on: push
 name: Publish
 jobs:
-  linux-test:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,5 +14,6 @@ jobs:
     - run: sudo apt-get install -f
     - run: npm install -g postcss-cli
     - run: npm install netlify-cli -g
+    - run: npm install --prefix themes/minimalist
     - run: hugo
     - run: netlify deploy --prod
