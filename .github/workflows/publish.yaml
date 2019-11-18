@@ -1,5 +1,5 @@
 on: push
-name: CI
+name: Publish
 jobs:
   linux-test:
     runs-on: ubuntu-latest
@@ -9,7 +9,7 @@ jobs:
     - uses: actions/setup-node@v1
 
     - run: export NETLIFY_AUTH_TOKEN="${{ secrets.NETLIFY_AUTH_TOKEN }}"
-    - run: apt-get install hugo
+    - run: sudo apt-get install hugo
     - run: npm install -g postcss-cli
     - run: npm install netlify-cli -g
     - run: netlify
