@@ -12,4 +12,5 @@ jobs:
     - run: sudo apt-get install hugo
     - run: npm install -g postcss-cli
     - run: npm install netlify-cli -g
-    - run: netlify
+    - run: hugo
+    - run: netlify deploy --prod
