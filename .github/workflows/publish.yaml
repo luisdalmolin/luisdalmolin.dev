@@ -9,7 +9,10 @@ jobs:
     - uses: actions/setup-node@v1
 
     - run: export NETLIFY_AUTH_TOKEN="${{ secrets.NETLIFY_AUTH_TOKEN }}"
-    - run: sudo apt-get install hugo
+    - run: |
+      wget https://github.com/gohugoio/hugo/releases/download/v0.58.2/hugo_0.58.2_Linux-64bit.deb
+      dpkg -i hugo_0.58.2_Linux-64bit.deb
+      sudo apt-get install -f
     - run: npm install -g postcss-cli
     - run: npm install netlify-cli -g
     - run: hugo
