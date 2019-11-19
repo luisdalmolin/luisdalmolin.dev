@@ -1,6 +1,6 @@
 ---
 author:
-title: [PT-BR] Calcular frete nos correios
+title: "[PT-BR] Calcular frete nos correios"
 date: 2017-30-11T19:30:04-03:00
 link: https://github.com/EscapeWork/Frete
 type: package
