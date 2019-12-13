@@ -11,9 +11,9 @@ This blog post will show you how to configure Github actions to run your `phpuni
 
 The first thing we'll need is a docker container with PHP installed that is able to run our Laravel test suite. We, at KDG, put together a [docker container](https://cloud.docker.com/u/kirschbaumdevelopment/repository/docker/kirschbaumdevelopment/laravel-test-runner) specifically for this purpose. The docker container can be found at:
 
-* PHP 7.4: `kirschbaumdevelopment/laravel-test-runner:7.4.0`
-* PHP 7.3: `kirschbaumdevelopment/laravel-test-runner:7.3.0`
-* PHP 7.2: `kirschbaumdevelopment/laravel-test-runner:7.2.0`
+* PHP 7.4: `kirschbaumdevelopment/laravel-test-runner:7.4`
+* PHP 7.3: `kirschbaumdevelopment/laravel-test-runner:7.3`
+* PHP 7.2: `kirschbaumdevelopment/laravel-test-runner:7.2`
 
 The Github repository can be found at [Laravel Test Runner Container](https://github.com/kirschbaum-development/laravel-test-runner-container). Please open issues or send pull requests if you find any libraries missing for your needs.
 
@@ -32,7 +32,7 @@ jobs:
   phpunit:
     runs-on: ubuntu-latest
     container:
-      image: kirschbaumdevelopment/laravel-test-runner:7.3.0
+      image: kirschbaumdevelopment/laravel-test-runner:7.3
 
     services:
       mysql:
