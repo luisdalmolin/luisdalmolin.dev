@@ -29,7 +29,7 @@ class PaymentGateway
         $this->client = $client;
     }
 
-    public function pay($amount)
+    public function pay($token, $amount)
     {
         $response = $this->client->post('https://payment-provider.com/pay', [
             'json' => [
@@ -56,7 +56,7 @@ class PaymentGatewayTest extends TestCase
         $httpClient = $this->mock(\GuzzleHttp\Client::Class);
         $httpClient->shouldReceive('post')
             ->with(['some', 'args', 'here'])
-            ->andReturn(new \GuzzleHttp\Psr7\Response(200, [], json_encode(['some' => 'json']));
+            ->andReturn(new \GuzzleHttp\Psr7\Response(200, [], json_encode(['id' => 'PAY-XXX']));
 
         $paymentProvider = $this->app->make(PaymentProvider::class);
         $paymentProvider->handle();
@@ -75,7 +75,7 @@ Spies are very similar as the mock. The main difference is that you don’t set 
 {{< highlight php >}}
 <?php
 
-public function test_http_request_with_mock()
+public function test_http_request_with_spies()
 {
     $httpClient = $this->spy(\GuzzleHttp\Client::Class);
 
@@ -84,7 +84,7 @@ public function test_http_request_with_mock()
 
     $httpClient->shouldReceive('post')
         ->with(['some', 'args', 'here'])
-        ->andReturn(new \GuzzleHttp\Psr7\Response(200, [], json_encode(['some' => 'json']));
+        ->andReturn(new \GuzzleHttp\Psr7\Response(200, [], json_encode(['id' => 'PAY-XXX']));
 }
 {{< /highlight >}}
 
@@ -92,9 +92,26 @@ public function test_http_request_with_mock()
 
 Turns out, there’s a more elegant solution for Guzzle that does not involve mocks and will also test your HTTP client library without actually making any HTTP request.
 
-First, let’s talk about the first 2 options. They are fine, they work and they return what in theory would . But using mock or spies can be dangerous as well. Let’s look at the following example.
+You will also write your tests based on the response they get instead of methods calls that happen internally in your app.
 
-TODO: find a fucking good example
+First, let’s talk about the first 2 options. They are fine, they work and they return what in theory would . But using mock or spies can be dangerous sometimes. Let’s write a test using Guzzle MockHandler.
+
+{{< highlight php >}}
+<?php
+
+public function test_http_request_with_mock_handlers()
+{
+    $mock = new \GuzzleHttp\Handler\MockHandler([
+        new Response(200, [], ['id' => 'PAY-XXX']),
+    ]);
+
+    $handlerStack = \GuzzleHttp\HandlerStack::create($mock);
+    $client = new \GuzzleHttp\Client(['handler' => $handlerStack]);
+
+    $paymentProvider = new PaymentProvider($client);
+    $paymentProvider->handle();
+}
+{{< /highlight >}}
 
 Things that could break your application and a mocked guzzle instance would no caught:
 
