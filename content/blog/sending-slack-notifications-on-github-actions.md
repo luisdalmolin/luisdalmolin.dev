@@ -1,5 +1,5 @@
 ---
-title: Sending Slack notifications after Github Actions run
+title: Sending Slack notifications after running Github Actions
 date: 2020-02-01T09:05:46-03:00
 draft: false
 type: post
