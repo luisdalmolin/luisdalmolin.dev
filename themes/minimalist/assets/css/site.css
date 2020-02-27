@@ -50,6 +50,7 @@ html, body {
   @apply px-2;
   @apply py-1;
   @apply mx-1;
+  @apply ml-0;
 }
 
 .content pre {
