@@ -7,7 +7,7 @@
         <hr class="mb-10 bt-0 border-gray-700">
 
         <!-- listing recent blog posts -->
-        {{ range first 10 .Site.Pages }}
+        {{ range first 15 .Site.Pages }}
             <!-- only list blog posts -->
             {{ if (and (eq .Section "blog") (.IsPage)) }}
                 <div class="mb-10">
