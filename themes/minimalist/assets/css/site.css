@@ -4,7 +4,7 @@ html, body {
 
 .content {
   @apply text-lg;
-  @apply leading-relaxed;
+  @apply leading-loose;
   @apply text-gray-400;
 }
 
@@ -76,6 +76,15 @@ html, body {
   @apply mb-6;
   @apply mt-0;
   @apply border-gray-700;
+}
+
+.content blockquote {
+  @apply pl-8;
+  @apply -ml-8;
+  border-left: 1px solid;
+  @apply border-red-300;
+  @apply text-gray-600;
+  @apply italic;
 }
 
 .badges {
