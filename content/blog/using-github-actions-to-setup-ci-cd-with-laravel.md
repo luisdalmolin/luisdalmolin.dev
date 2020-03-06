@@ -23,7 +23,7 @@ Alright, let's get into it!
 
 ## Setting up the Github Action
 
-You may need to tweak a few things, but basically you should be able to just copy and paste the following configuration to your Github actions.
+You might need to tweak a few things, but basically you should be able to just copy and paste the following configuration to your Github actions.
 
 `.github/workflows/ci.yml`
 {{< highlight yml >}}on: push
