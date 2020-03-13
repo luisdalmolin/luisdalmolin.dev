@@ -98,4 +98,6 @@ html, body {
 .highlight pre code {
   color: inherit !important;
   background-color: inherit !important;
+  @apply block;
+  @apply overflow-x-auto;
 }
