@@ -2,3 +2,10 @@ baseURL = "https://luisdalmolin.dev/"
 languageCode = "en-us"
 title = "Luis Dalmolin"
 theme = "minimalist"
+
+[params]
+# Sections to include in lists and indexes
+mainSections = ["post"]
+
+[taxonomies]
+  tag = "tags"

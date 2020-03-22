@@ -3,6 +3,7 @@ title: "Using Github Actions to setup CI/CD with Laravel (and MySQL)"
 date: 2019-11-10T09:05:46-03:00
 draft: false
 type: post
+tags: ["#laravel", "#docker", "#ci"]
 ---
 
 At the time of the writing of this post, Github Actions is out of beta and will be available to everyone in November 13. It is a great option which can automate a lot of things. One of these things is to run your CI/CD pipeline (aka PHPUnit tests).

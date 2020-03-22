@@ -3,6 +3,7 @@ title: Different ways to mock HTTP requests in your tests
 date: 2019-11-17T09:05:46-03:00
 draft: true
 type: post
+tags: ["#php", "#testing"]
 ---
 
 Testing HTTP requests is something that can be tricky and confusing. Should you mock the HTTP client entirely? Should you use some stubs for responses? Should you mock the HTTP client at all?
