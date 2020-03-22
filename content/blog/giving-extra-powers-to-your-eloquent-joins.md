@@ -3,7 +3,7 @@ title: Giving extra powers to your Eloquent Joins
 date: 2020-03-21T09:05:46-03:00
 draft: true
 type: post
-tags: ["#laravel", "#eloquent"]
+tags: ["laravel", "eloquent"]
 ---
 
 If you have some experience using databases, it is very likely you have used `joins` at least once in your career. Joins can be used for a bunch of different reasons, from selecting data from other tables to limiting the matches of your query.

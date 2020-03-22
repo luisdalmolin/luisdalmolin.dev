@@ -3,7 +3,7 @@ title: Ignore files in Git without adding them to .gitignore
 date: 2020-03-05T09:05:46-03:00
 draft: false
 type: post
-tags: ["#git"]
+tags: ["git"]
 ---
 
 Usually, is better to ignore any files you don’t want to track in either the project local `.gitignore` or your global `.gitignore`.

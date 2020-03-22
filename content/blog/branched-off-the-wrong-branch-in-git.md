@@ -3,7 +3,7 @@ title: I branched off the wrong branch in Git. How do I fix this?
 date: 2020-02-27T09:05:46-03:00
 draft: false
 type: post
-tags: ["#git"]
+tags: ["git"]
 ---
 
 You created the pull request on Github (or GitLab, or whatever) to just realize you have created your feature branch off the wrong branch.

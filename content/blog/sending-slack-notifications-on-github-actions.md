@@ -3,7 +3,7 @@ title: Sending Slack notifications after running Github Actions
 date: 2020-02-01T09:05:46-03:00
 draft: false
 type: post
-tags: ["#ci"]
+tags: ["ci"]
 ---
 
 This is simply a short tip post on how to send messages to a slack channel after your github action runs. [This package](https://github.com/marketplace/actions/action-slack) make this very simple. You only need to implement the following markup in your existing Github Action:

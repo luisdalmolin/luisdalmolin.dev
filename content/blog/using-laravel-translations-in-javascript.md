@@ -3,7 +3,7 @@ title: "Using Laravel Translations in Javascript"
 date: 2018-03-15T16:31:30-03:00
 draft: false
 type: post
-tags: ["#laravel", "#translations"]
+tags: ["laravel", "translations"]
 ---
 
 Have you ever wanted to use the same Laravel translations you use on the back-end in your front-end code, like Vue.js, Angular?
