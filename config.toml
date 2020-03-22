@@ -4,8 +4,4 @@ title = "Luis Dalmolin"
 theme = "minimalist"
 
 [params]
-# Sections to include in lists and indexes
 mainSections = ["post"]
-
-[taxonomies]
-  tag = "tags"
