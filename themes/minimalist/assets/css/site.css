@@ -74,6 +74,14 @@ html, body {
   @apply text-red-400;
 }
 
+.content .btn {
+  @apply text-white;
+}
+
+.content .btn:hover {
+  @apply text-gray-200;
+}
+
 .content hr {
   @apply mb-6;
   @apply mt-0;

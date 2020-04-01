@@ -2,7 +2,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-<title>{{ .Site.Title }}</title>
+{{- $title := "" -}}
+{{- if .IsHome }}
+{{- $title = (.Site.Title) -}}
+{{- else if .Title }}
+{{- $title = (printf "%s | %s" .Title .Site.Title) -}}
+{{- end }}
+<title>{{ $title }}</title>
+
+{{- with .Permalink }}
+<link rel="canonical" href="{{ . }}">
+{{- end }}
 
 <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
 {{ if .Site.IsServer }}

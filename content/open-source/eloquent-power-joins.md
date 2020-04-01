@@ -1,0 +1,32 @@
+---
+author:
+title: Eloquent Power Joins
+date: 2020-03-31T19:30:04-03:00
+link: https://github.com/kirschbaum-development/eloquent-power-joins
+type: package
+---
+
+The Laravel magic you know, now applied to joins.
+
+<div class="badges">
+<a target="_blank" href="https://github.com/kirschbaum-development/eloquent-power-joins/actions">
+    <img src="https://github.com/kirschbaum-development/eloquent-power-joins/workflows/CI/badge.svg" alt="Actions Status">
+</a>
+
+<a target="_blank" href="https://github.com/kirschbaum-development/eloquent-power-joins/blob/master/LICENSE.md">
+    <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square">
+</a>
+
+<a target="_blank" href="https://packagist.org/packages/kirschbaum-development/eloquent-power-joins">
+    <img src="https://img.shields.io/packagist/v/kirschbaum-development/eloquent-power-joins.svg?style=flat-square" alt="Latest Version on Packagist">
+</a>
+
+<a target="_blank" href="https://packagist.org/packages/kirschbaum-development/eloquent-power-joins">
+    <img src="https://img.shields.io/packagist/dt/kirschbaum-development/eloquent-power-joins.svg?style=flat-square" alt="Total Downloads">
+</a>
+
+<a target="_blank" href="https://scrutinizer-ci.com/g/kirschbaum-development/eloquent-power-joins/?branch=master">
+    <img src="https://scrutinizer-ci.com/g/kirschbaum-development/eloquent-power-joins/badges/quality-score.png?b=master" alt="Scrutinizer Code Quality">
+</a>
+
+</div>
