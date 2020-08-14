@@ -2,6 +2,15 @@ html, body {
   font-family: 'Lato', sans-serif;
 }
 
+.underline-red {
+  @apply pr-1;
+  background-image: linear-gradient(120deg, theme('colors.red.500') 0%, theme('colors.red.700') 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 0.2em;
+  background-position: 0 88%;
+  transition: 0.2s ease all;
+}
+
 .content {
   @apply text-lg;
   @apply leading-loose;

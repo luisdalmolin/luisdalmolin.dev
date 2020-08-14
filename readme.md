@@ -4,6 +4,13 @@
 
 https://luisdalmolin.dev
 
+### Pre-requisites
+
+```bash
+npm install -g postcss-cli
+npm install -g autoprefixer
+```
+
 ### Serve locally
 
 ```
