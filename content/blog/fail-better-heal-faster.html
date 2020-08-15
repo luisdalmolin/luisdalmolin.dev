@@ -5,23 +5,23 @@ type: post
 tags: ["queue", "laravel", "failure"]
 ---
 
-<p>I want to talk about something I don’t usually see much content out there, but that is key for a healthy application: 
-<span class="text-highlight">Dealing with failure of queued jobs</span>.</p>
+<p>I want to talk about something I don’t usually see much content out there, but is something I personally think is key for a healthy application: 
+<span class="text-highlight">Dealing with failed jobs</span>.</p>
 
-<p>I’m going to assume at this point on that you understand how background queues work. 
-In case you don’t, the <a href="https://laravel.com/docs/7.x/queues#introduction" target="_blank">Laravel Queues</a> documentation should be a good introduction.</p>
+<p>I'm going to assume at this point you already understand how background queues work. 
+In case you don’t, <a href="https://en.wikipedia.org/wiki/Job_queue" target="_blank">this</a> might be a good start.</p>
 
-<p>This is something that is very easy to look away when you have another 8373653 things to do and tickets to get done.</p>
+<p>Dealing with failed jobs is that kind of thing that is very easy to look away when you have another 8373653 things to do and tickets to get done. You may even think is not even your job to care about this (and it may very well not be indeed). But —  <b>IMO</b> — I think is something all developers in a team should be aware and thinking at all times.</p>
 
-<p>You may even think is not even your job to care about this (and it may very well not be indeed). But —  *IMO* — I think is something everyone on the team should be aware and thinking at all times.</p>
-
-<p>So, here’s some tips on how to deal with failed jobs, not only after the fail, but also when they are failing. The post is going to show some examples of how Laravel handles queued jobs, but the main concepts should be easily applied to any language/framework.</p>
+<p>So, in this article I'll go over some tips & tricks on how to deal with failed jobs, but not only after they fail, but also **while** they are failing. This post is going to show some examples using the Laravel queue system, but the main concepts should be easily applied to any language/framework.</p>
 
 <h2>Whatever can go wrong, will go wrong</h2>
 
-<p>Something is going to fail, so embrace it. Your code can work perfectly for months, and then one beautiful day that shitty API you had to integrate with changed without any previous notice, or AWS is having an issue.</p>
+<p>You know about <a href="https://en.wikiquote.org/wiki/Murphy%27s_law" target="_blank">Murphy's law</a>, right? So you already know that things are going to fail, so try to embrace it as much as you can. Your code can work perfectly for months, and then one beautiful day that shitty API you had to integrate with changed without any previous notice, or AWS is having an issue or [insert your random failure reason here].</p>
 
-<p>The fact is, something unexpected is going to happen. So <span class="text-highlight">Deal with what you know, and make sure you have enough information to debug the unknown.</span></p>
+<p>The fact is, something unexpected is going to happen. So <span class="text-highlight">Deal with with things you know how to deal, and make sure you "fail better" when you don't know how to deal</span>. One of the key things for failing better, is having enough informations to debug what happened after the fact. Usually, logging is the best tool for the job for this kind of thing.</p>
+
+<p>Let's look a simple code example to illustrate this better:</p>
 
 {{< highlight php >}}
 <?php 
@@ -40,7 +40,7 @@ class UploadImageJob implements ShouldQueue
 	      } catch (RateLimitException $exception) {
             $this->release($exception->getRetryAfter());
 	      } catch (Exception $exception) {
-            Log::error('[UploadImage] Unkown error when trying to upload image', [
+            Log::critical('[UploadImage] Unkown error when trying to upload image', [
                 'error' => $exception->getMessage(),
                 'path' => $this->path,
             ]);
@@ -51,9 +51,11 @@ class UploadImageJob implements ShouldQueue
 }
 {{< /highlight >}}
 
-<h3>Better odds with retries</h3>
+<p>In the above example, we specifically know how to deal with Rate Limit exceptions in the API, by releasing the job back into the queue after our rate limit expires. We are also catching general errors that can happen and applying some good logging information so we can debug what happened later.</p>
 
-<p>In the above example, the job could have failed because whatever is the service we are trying to upload the image was having an outage. So if you job is not time sensitive, it may be a good idea to implement some kind of exponential backoff strategy.</p>
+<h2>Better odds with retries</h2>
+
+<p>In the above example, one of the many reasons the job could have failed is because the image upload service we are using was having an outage. So if you job is not time sensitive, it may be a good idea to implement some kind of exponential backoff strategy.</p>
 
 <p>In Laravel, this can be done using the number of attempts and the `retryAfter` method.</p>
 
@@ -89,7 +91,7 @@ class UploadImageJob implements ShouldQueue
 }
 {{< /highlight >}}
 
-<p>It’s important to note here that each job has its own history, so this approach may not be the right approach for all the jobs.</p>
+<p>It’s important to note here that this approach may not be the right approach for every job. So be aware of this.</p>
 
 <h2>Keep your failed_jobs table clean</h2>
 
@@ -141,10 +143,14 @@ class UpdateDocumentJob implements ShouldQueue
 }
 {{< /highlight >}}
 
-<h3>Logs</h3>
+<h2>Logging</h2>
 
 <p>Queued jobs run in async ways, and one of the best tools you have to understand what is going on (even on success), is logging. This sometimes can sound a little dumb when you are writing the log message in some place you know exactly what’s going on, but I can’t tell you how many times I was bitten by this.</p>
 
 <p><span class="text-highlight">Your local data and your test data are not your production data.</span>. Remember the “Whatever can go wrong, will go wrong” part? Sometimes a simple thing you log can literally save you hours of debugging.<p>
+
+<p>One thing I find very useful is to use all the different available <a href="https://github.com/Seldaek/monolog/blob/master/doc/01-usage.md#log-levels" target="_blank">log levels</a> and setup some good alerting system based on the levels.</p>
+
+<p>And the last thing, which is kind of more related to your whole stack, is having a centralized place for logs where you can search and setup alerts. You may have noticed that I like prefix my log entries with the job name as a "namespace". This is REALLY helpful for searching logs and created separated log streams and alerts.</p>
 
 <p class="pt-10">That's all I have, hopefully if you get all the way down here, this was somehow helpful to you.</p>
