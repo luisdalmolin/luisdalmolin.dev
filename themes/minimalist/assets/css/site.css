@@ -11,6 +11,12 @@ html, body {
   transition: 0.2s ease all;
 }
 
+.text-highlight {
+  @apply bg-red-300;
+  @apply text-black;
+  @apply px-2 py-1;
+}
+
 .content {
   @apply text-lg;
   @apply leading-loose;
@@ -29,12 +35,11 @@ html, body {
 }
 
 .content p {
-  @apply mb-8;
+  @apply my-6;
 }
 
 .content h2 {
-  @apply mt-4;
-  @apply mb-4;
+  @apply pt-8;
   @apply text-2xl;
   @apply font-bold;
   @apply text-white;

@@ -1,0 +1,150 @@
+---
+title: Fail better, heal faster
+date: 2020-08-15T09:05:46-03:00
+type: post
+tags: ["queue", "laravel", "failure"]
+---
+
+<p>I want to talk about something I don’t usually see much content out there, but that is key for a healthy application: 
+<span class="text-highlight">Dealing with failure of queued jobs</span>.</p>
+
+<p>I’m going to assume at this point on that you understand how background queues work. 
+In case you don’t, the <a href="https://laravel.com/docs/7.x/queues#introduction" target="_blank">Laravel Queues</a> documentation should be a good introduction.</p>
+
+<p>This is something that is very easy to look away when you have another 8373653 things to do and tickets to get done.</p>
+
+<p>You may even think is not even your job to care about this (and it may very well not be indeed). But —  *IMO* — I think is something everyone on the team should be aware and thinking at all times.</p>
+
+<p>So, here’s some tips on how to deal with failed jobs, not only after the fail, but also when they are failing. The post is going to show some examples of how Laravel handles queued jobs, but the main concepts should be easily applied to any language/framework.</p>
+
+<h2>Whatever can go wrong, will go wrong</h2>
+
+<p>Something is going to fail, so embrace it. Your code can work perfectly for months, and then one beautiful day that shitty API you had to integrate with changed without any previous notice, or AWS is having an issue.</p>
+
+<p>The fact is, something unexpected is going to happen. So <span class="text-highlight">Deal with what you know, and make sure you have enough information to debug the unknown.</span></p>
+
+{{< highlight php >}}
+<?php 
+
+class UploadImageJob implements ShouldQueue
+{
+    public function __construct($path)
+    {
+        $this->path = $path;
+    }
+
+    public function handle(UploaderClient $client)
+    {
+	      try {
+            $client->upload($this->path);
+	      } catch (RateLimitException $exception) {
+            $this->release($exception->getRetryAfter());
+	      } catch (Exception $exception) {
+            Log::error('[UploadImage] Unkown error when trying to upload image', [
+                'error' => $exception->getMessage(),
+                'path' => $this->path,
+            ]);
+
+            $this->fail($exception);
+	      }
+    }
+}
+{{< /highlight >}}
+
+<h3>Better odds with retries</h3>
+
+<p>In the above example, the job could have failed because whatever is the service we are trying to upload the image was having an outage. So if you job is not time sensitive, it may be a good idea to implement some kind of exponential backoff strategy.</p>
+
+<p>In Laravel, this can be done using the number of attempts and the `retryAfter` method.</p>
+
+{{< highlight php >}}
+<?php 
+
+public function retryAfter()
+{
+    return now()->addMinutes($this->attempts() * 5);
+}
+{{< /highlight >}}
+
+<p>Here, it’s important to be aware of the max number of tries from your queue workers and/or your job. Another way to do this is by calling the `release` method directly.</p>
+
+{{< highlight php >}}
+<?php 
+
+class UploadImageJob implements ShouldQueue
+{
+    public function __construct($path)
+    {
+        $this->path = $path;
+    }
+
+    public function handle(UploaderClient $client)
+    {
+	      try {
+            $client->upload($this->path);
+	      } catch (Exception $exception) {
+            $this->release($this->attempts() * 5);
+	      }
+    }
+}
+{{< /highlight >}}
+
+<p>It’s important to note here that each job has its own history, so this approach may not be the right approach for all the jobs.</p>
+
+<h2>Keep your failed_jobs table clean</h2>
+
+<p>Cloudfare had an outage and affected basically the whole internet, and most of your jobs failed to process. It’s true that during the outage there isn’t much you can do, but you can (and should) always come back to re-run the queued jobs that failed. They are all (or at least they should) be stored in the failed jobs table.</p>
+
+<p>If you don’t clean up one time, the next time it happens you may not do because there are some old records in that table that you are not completely sure the impact they would cause. And so on, until you have 50k failed jobs in the table and you have no choice unless deleting everything or pretending you didn’t remember about that table.</p>
+
+<p>So, <span class="text-highlight">keep your failed jobs clean</span>. And for this, I have a few tips to avoid problems while keeping your table clean.</p>
+
+<h3>There are some things you don’t need to or can’t re-run</h3>
+
+<p>Re-running some failed jobs could do more harm than good in some situations. So, be aware of this when retrying failed jobs.</p>
+
+<p>You don’t want to re-run a job that processes a transaction that was already processed in the next run of a command or something, for instance. Or sending a “Your order was delivered” notification 3 months later doesn’t really make much sense.</p>
+
+<p>Laravel doesn’t really have a great way of retrying or flushing specific jobs in batches, so I wrote [this package](https://github.com/kirschbaum-development/laravel-queue-batch-retry) that adds this functionality in a basic level, so it may be helpful to you.</p>
+
+<p>So, my recommendation here is to remove what you don’t want, and re-run what you want. Which brings me to my next point.</p>
+
+<h3>Make your jobs as idempotent as you can</h3>
+
+<p>Idempotent, fancy word. But basically, you want to make sure that if the same job run multiple times, it won’t charge your customer multiple times for the same thing, for example.</p>
+
+<p>Another situation where this thinking is important is when updating a database record via a job payload. I work on this system recently that receives thousands of payloads to create/update/delete documents. Sometimes, for a number of reasons, these jobs fail. But if I re-run the jobs one day later, a new update for the document could have been executed already, with newer data. So in that case, I implemented a logic like this:</p>
+
+{{< highlight php >}}
+<?php 
+
+class UpdateDocumentJob implements ShouldQueue
+{
+    public function __construct($document, $payload)
+    {
+        $this->document = $document;
+        $this-> payload = $payload;
+    }
+
+    public function handle()
+    {
+	      if ($this->document->updated_at > $this->payload->updated_at) {
+            Log::info("[UpdateDocumentJob] Not updating document because document last updated is greater than the payload last updated", [
+                'document' => $this->document->id,
+                'document_updated_at' => $this->document-> updated_at,
+                'payload_updated_at' => $this->payload->updated_at,
+            ]);
+
+            return;
+        }
+    }
+}
+{{< /highlight >}}
+
+<h3>Logs</h3>
+
+<p>Queued jobs run in async ways, and one of the best tools you have to understand what is going on (even on success), is logging. This sometimes can sound a little dumb when you are writing the log message in some place you know exactly what’s going on, but I can’t tell you how many times I was bitten by this.</p>
+
+<p><span class="text-highlight">Your local data and your test data are not your production data.</span>. Remember the “Whatever can go wrong, will go wrong” part? Sometimes a simple thing you log can literally save you hours of debugging.<p>
+
+<p class="pt-10">That's all I have, hopefully if you get all the way down here, this was somehow helpful to you.</p>
