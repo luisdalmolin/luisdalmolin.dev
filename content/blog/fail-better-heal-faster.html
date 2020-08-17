@@ -19,7 +19,7 @@ In case you don’t, <a href="https://en.wikipedia.org/wiki/Job_queue" target="_
 
 <p>You know about <a href="https://en.wikiquote.org/wiki/Murphy%27s_law" target="_blank">Murphy's law</a>, right? So you already know that things are going to fail, so try to embrace it as much as you can. Your code can work perfectly for months, and then one beautiful day that shitty API you had to integrate with changed without any previous notice, or AWS is having an issue or [insert your random failure reason here].</p>
 
-<p>The fact is, something unexpected is going to happen. So <span class="text-highlight">Deal with with things you know how to deal, and make sure you "fail better" when you don't know how to deal</span>. One of the key things for failing better, is having enough informations to debug what happened after the fact. Usually, logging is the best tool for the job for this kind of thing.</p>
+<p>The fact is, something unexpected is going to happen. So <span class="text-highlight">Deal with things you know how to deal, and make sure you "fail better" when you don't know how to deal</span>. One of the key things for failing better, is having enough informations to debug what happened after the fact. Usually, logging is the best tool for the job for this kind of thing.</p>
 
 <p>Let's look a simple code example to illustrate this better:</p>
 
@@ -57,7 +57,7 @@ class UploadImageJob implements ShouldQueue
 
 <p>In the above example, one of the many reasons the job could have failed is because the image upload service we are using was having an outage. So if you job is not time sensitive, it may be a good idea to implement some kind of exponential backoff strategy.</p>
 
-<p>In Laravel, this can be done using the number of attempts and the `retryAfter` method.</p>
+<p>In Laravel, this can be done using the number of attempts and the <code>retryAfter</code> method.</p>
 
 {{< highlight php >}}
 <?php 
@@ -68,7 +68,7 @@ public function retryAfter()
 }
 {{< /highlight >}}
 
-<p>Here, it’s important to be aware of the max number of tries from your queue workers and/or your job. Another way to do this is by calling the `release` method directly.</p>
+<p>Here, it’s important to be aware of the max number of tries from your queue workers and/or your job. Another way to do this is by calling the <code>release</code> method directly.</p>
 
 {{< highlight php >}}
 <?php 
@@ -107,7 +107,7 @@ class UploadImageJob implements ShouldQueue
 
 <p>You don’t want to re-run a job that processes a transaction that was already processed in the next run of a command or something, for instance. Or sending a “Your order was delivered” notification 3 months later doesn’t really make much sense.</p>
 
-<p>Laravel doesn’t really have a great way of retrying or flushing specific jobs in batches, so I wrote [this package](https://github.com/kirschbaum-development/laravel-queue-batch-retry) that adds this functionality in a basic level, so it may be helpful to you.</p>
+<p>Laravel doesn’t really have a great way of retrying or flushing specific jobs in batches, so I wrote <a href="https://github.com/kirschbaum-development/laravel-queue-batch-retry" target="_blank">this package</a> that adds this functionality in a basic level, so it may be helpful to you.</p>
 
 <p>So, my recommendation here is to remove what you don’t want, and re-run what you want. Which brings me to my next point.</p>
 
@@ -142,6 +142,39 @@ class UpdateDocumentJob implements ShouldQueue
     }
 }
 {{< /highlight >}}
+
+<h3>Ignoring missing models</h3>
+
+<blockquote>Illuminate\Database\Eloquent\ModelNotFoundException: No query results for model</blockquote>
+
+<p>I bet you had a few of these in your Laravel life, right? In queued jobs, this can happen because Laravel serializes and unserializes your models when sending/retrieving the jobs to/from the queue. That's what that <code>SerializesModels</code> trait does.</p>
+
+{{< highlight php >}}
+<?php 
+
+class SendArticleUpdatedWebhookJob implements ShouldQueue
+{
+    use SerializesModels;
+
+    public $deleteWhenMissingModels = true;
+
+    public function __construct(Article $article)
+    {
+        $this->article = $article;
+    }
+}
+{{< /highlight >}}
+
+<div class="block md:flex justtify-between">
+    <div class="w-full pr-0 md:w-1/2 md:pr-6">
+        <p>If Laravel tries to unserialize your model (behind the scenes, it basically tries to fetch it from the database again with a <code>findOrFail</code>) and the model was deleted, the ModelNotFoundException will be thrown. In case you don't care about this in your job, you can simply set the <code>deleteWhenMissingModels</code> property in your job and Laravel is going to <a href="https://laravel.com/docs/7.x/queues#ignoring-missing-models" target="_blank">ignore missing models</a> and it won't send the job to the failed_jobs table.</p>
+        <p>This may be an edge case, but depending on how many jobs your are processing it really helps keeping things clean. Also, just another thing to be aware which was pointed By Mohamed Said:</p>
+    </div>
+
+    <div class="w-full pl-0 pt-6 md:w-1/2 md:pl-6">
+        <blockquote class="twitter-tweet"><p lang="en" dir="ltr">⚠️ With $deleteWhenMissing=true, if the job is in a chain, the next job in chain will **not** run. The job won&#39;t fail, but the chain will halt. Even the chain catch() callback won&#39;t be called. It&#39;s like you&#39;re saying &quot;Ignore the whole thing and don&#39;t warn me&quot; <a href="https://t.co/RjOGJSp5ea">https://t.co/RjOGJSp5ea</a></p>&mdash; Mohamed Said (@themsaid) <a href="https://twitter.com/themsaid/status/1295052781250904070?ref_src=twsrc%5Etfw">August 16, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+</div>
 
 <h2>Logging</h2>
 
