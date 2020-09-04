@@ -16,7 +16,14 @@
     <div>
         {{ range .Pages }}
             <div class="mb-10">
-                <h3 class="inline-block mb-2 text-red-400 hover:text-red-500 text-xl font-bold"><a href="{{ .Params.link }}" target="_blank">{{ .Title }}</a></h3>
+                {{ if isset .Params "banner" }}
+                    <a href="{{ .Params.link }}" target="_blank"><img src="{{ .Params.banner }}" alt="{{ .Params.title }}"></a>
+                {{ else }}
+                    <h3 class="inline-block mb-2 text-red-400 hover:text-red-500 text-xl font-bold">
+                        <a href="{{ .Params.link }}" target="_blank">{{ .Title }}</a>
+                    </h3> 
+                {{ end }}
+
                 <div class="content text-red-100">
                     {{ .Content }}
                 </div>
