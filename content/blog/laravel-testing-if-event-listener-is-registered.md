@@ -1,5 +1,5 @@
 ---
-title: "Testing if Event Listeners are attached to events in Laravel"
+title: "Testing if event listeners are attached to events in Laravel"
 date: 2020-09-03T16:31:30-03:00
 draft: false
 type: post
