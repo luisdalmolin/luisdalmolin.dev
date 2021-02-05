@@ -27,7 +27,8 @@ Or, with a view response:
 {{< highlight php >}}
 <?php
 
-return view('dashboard')
+return response()
+    ->view('dashboard')
     ->header('Cache-Control', 'nocache, no-store, max-age=0, must-revalidate');
 {{< /highlight >}}
 
