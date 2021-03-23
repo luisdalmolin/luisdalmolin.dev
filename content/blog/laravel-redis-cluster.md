@@ -18,6 +18,7 @@ From Redis documentation:
 In short, make sure you make your keys `{key}` instead of `key`. In Laravel, this can be in a few different places depending for what you are using Redis. You only need to use this approach where Redis will perform "multiple key operations". Since, you cannot tell without digging into the internals, here's my suggestion:
 
 * Wrap your queue names. e.g. `'queue' => '{default}'` in your `config/queue.php` file.
+* Wrap your `Cache::tags` calls. e.g. `Cache::tags('{my-tag}')`.
 * Anytime your are [interacting directly with Redis](https://laravel.com/docs/8.x/redis#interacting-with-redis). e.g. `Redis::funnel`, `Redis::throttle`, etc.
 
 ## Specific Laravel configurations
