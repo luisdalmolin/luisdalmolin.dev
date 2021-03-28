@@ -6,6 +6,7 @@ tags: ["laravel", "redis"]
 ---
 
 > Cannot use 'EVAL' with redis-cluster
+
 > Cannot use 'DEL' with redis-cluster
 
 I was getting these errors after switching over from a single Redis instance to a Redis Cluster with multi-nodes, and it took me a while to figure out what was going on. While this happened in a PHP/Laravel application, most of the tips here can be used with any language/framework.
