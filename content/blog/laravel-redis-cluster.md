@@ -6,8 +6,9 @@ tags: ["laravel", "redis"]
 ---
 
 > Cannot use 'EVAL' with redis-cluster
+> Cannot use 'DEL' with redis-cluster
 
-I was getting this error after switching over from a single Redis instance to a Redis Cluster with multi-nodes, and it took me a while to figure out what was going on. While this happened in a PHP/Laravel application, most of the tips here can be used with any language/framework.
+I was getting these errors after switching over from a single Redis instance to a Redis Cluster with multi-nodes, and it took me a while to figure out what was going on. While this happened in a PHP/Laravel application, most of the tips here can be used with any language/framework.
 
 ## Wrap your keys in `{}`
 
@@ -20,6 +21,9 @@ In short, make sure you make your keys `{key}` instead of `key`. In Laravel, thi
 * Wrap your queue names. e.g. `'queue' => '{default}'` in your `config/queue.php` file.
 * Wrap your `Cache::tags` calls. e.g. `Cache::tags('{my-tag}')`.
 * Anytime your are [interacting directly with Redis](https://laravel.com/docs/8.x/redis#interacting-with-redis). e.g. `Redis::funnel`, `Redis::throttle`, etc.
+* Avoid using "namespaced" cache keys. e.g. `vocabulary:terms` will throw the error if you wrap everything (`{vocabulary:terms}`). You have two options:
+  * Wrap only the first part of the namespace. e.g. `{vocabulary}:terms`
+  * Use a dot or something else instead of `:`. e.g. `vocabulary:terms`
 
 ## Specific Laravel configurations
 
