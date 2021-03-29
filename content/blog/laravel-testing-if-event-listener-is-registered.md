@@ -57,3 +57,8 @@ This wasn't big enough to make a package and I don't see this fitting anywhere e
 ---
 
 That's all. I hope you found this article helpful. Be sure to hit me up on Twitter at [@luisdalmolin](https://twitter.com/luisdalmolin) if you have any feedback.
+
+
+**UPDATE:** 
+
+I've changed my mind, and I've opened a [PR against Laravel](https://github.com/laravel/framework/pull/36690). So, since Laravel v8.34.0, there's a new `Event::assertListening` assertion you can use. You can check out usage in the [Laravel docs](https://laravel.com/docs/8.x/mocking#event-fake).
