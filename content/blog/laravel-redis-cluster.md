@@ -22,9 +22,6 @@ In short, make sure you make your keys `{key}` instead of `key`. In Laravel, thi
 * Wrap your queue names. e.g. `'queue' => '{default}'` in your `config/queue.php` file.
 * Wrap your `Cache::tags` calls. e.g. `Cache::tags('{my-tag}')`.
 * Anytime your are [interacting directly with Redis](https://laravel.com/docs/8.x/redis#interacting-with-redis). e.g. `Redis::funnel`, `Redis::throttle`, etc.
-* Avoid using "namespaced" cache keys. e.g. `vocabulary:terms` will throw the error if you wrap everything (`{vocabulary:terms}`). You have two options:
-  * Wrap only the first part of the namespace. e.g. `{vocabulary}:terms`
-  * Use a dot or something else instead of `:`. e.g. `vocabulary:terms`
 
 ## Specific Laravel configurations
 
