@@ -10,23 +10,23 @@ When you are using GitHub Actions to run your CI/CD pipelines, setting up (and u
 
 {{< highlight yaml >}}
 - name: Read NVM version from .nvmrc
-    run: echo "##[set-output name=NODEVERSION;]$(cat .nvmrc)"
-    id: node-version
+  run: echo "##[set-output name=NODEVERSION;]$(cat .nvmrc)"
+  id: node-version
 
 - name: Read PHP version from composer
-    run: echo "##[set-output name=PHPVERSION;]$(cat composer.json | jq '.config.platform.php' | sed 's/^"\(.*\)"$/\1/')"
-    id: php-version
+  run: echo "##[set-output name=PHPVERSION;]$(cat composer.json | jq '.config.platform.php' | sed 's/^"\(.*\)"$/\1/')"
+  id: php-version
 
 - name: Setup PHP (based on composer.json version)
-    uses: shivammathur/setup-php@v2
-    with:
+  uses: shivammathur/setup-php@v2
+  with:
     php-version: ${{ steps.php-version.outputs.PHPVERSION }}
 
 - name: Setup NodeJS (Based on .nvmrc)
-    uses: actions/setup-node@v2
-    with:
+  uses: actions/setup-node@v2
+  with:
     node-version: "${{ steps.node-version.outputs.NODEVERSION }}"
-    cache: 'npm'
+  cache: 'npm'
 {{< /highlight >}}
 
 This snippet will read the PHP version from the `composer.json`. More specifically the `config->platform->php` configuration (see https://getcomposer.org/doc/06-config.md#platform for more informations).
