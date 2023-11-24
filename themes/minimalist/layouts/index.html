@@ -13,7 +13,9 @@
                 <p class="inline text-xs bg-red-400 text-white px-4 py-2 mr-2">{{ .PublishDate.Format "January, 2006" }}</p>
 
                 {{ with .Params.tags }}
-                    <p class="inline text-xs bg-red-300 text-white px-3 py-2 mr-2">#{{ delimit . "</p><p class=\"inline text-xs bg-red-300 text-white px-3 py-2 mr-2\">#" }}</p>
+                    {{ range . }}
+                        <p class="inline text-xs bg-red-300 text-white px-3 py-2 mr-2">#{{ . }}</p>
+                    {{ end }}
                 {{ end }}
             </div>
         {{ end }}
