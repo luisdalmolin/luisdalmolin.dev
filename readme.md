@@ -9,6 +9,8 @@ https://luisdalmolin.dev
 ```bash
 npm install -g postcss-cli
 npm install -g autoprefixer
+
+cd themes/minimalist && npm install
 ```
 
 ### Serve locally
