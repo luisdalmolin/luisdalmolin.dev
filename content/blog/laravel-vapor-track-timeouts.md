@@ -6,11 +6,11 @@ type: post
 tags: ["laravel", "vapor", "lambda"]
 ---
 
-If you're using Laravel Vapor, you might encounter the "Task timed out after x seconds" error, indicating that the Lambda function running your code exceeded the configured timeout.
+If you're using Laravel Vapor, you might encounter the `Task timed out after x seconds` error, indicating that the Lambda function running your code exceeded the configured timeout.
 
-The log message is not very helpful, as it doesn't tell you which route is timing out. This is because the Lambda function itself is not aware of the ins and outs of Laravel and how it handles requests.
+This log message is not very helpful, as it doesn't give you any additional information or context, like which route or command are timing out. This happens because the Lambda function itself is not aware of details of Laravel and how it handles requests.
 
-To track this, we can make use of the PHP `pcntl` functions and a simple Laravel middleware. Let's get our hands dirty and see how this works.
+To track this, we can make use of the PHP `pcntl` functions with a simple Laravel middleware. Let's see how this looks like.
 
 First, we need to create a new HTTP middleware. Let's call it `TrackLambdaTimeoutsMiddleware`.
 
@@ -22,8 +22,8 @@ Do not forget to register the middleware in your `app/Http/Kernel.php` file.
 
 ```php
 protected $middleware = [
-        VaporTimeoutLogger::class,
-        // ...
+    VaporTimeoutLogger::class,
+    // ...
 ];
 ```
 
@@ -45,14 +45,14 @@ class TrackLambdaTimeoutsMiddleware
         });
 
         pcntl_async_signals(true);
-        pcntl_alarm(29); // Make sure to update this to your function's timeout, minus 1 second
+        pcntl_alarm(29); // Make sure to make this value match your Vapor timeout, minus 1 second
 
         return $next($request);
     }
 }
 ```
 
-This middleware will start this "timer" in the background, and if the function is still running after 29 seconds, it will log a warning message with the request data so you can know what route is failing. You should add more contextual information here as it makes sense to your application.
+This middleware will start its "timer" in the background, and if the function is still running after 29 seconds, it will log a warning message with the request data so you can know what route is failing. You should add more contextual information here as it makes sense to your application.
 
 **Important:** Make sure to update the `pcntl_alarm` value to match your function's timeout, minus 1 second. We need to make sure the function triggers and logs the message before the Lambda function times out and the whole process gets killed. This value should be taken from your `vapor.yml` configuration file, under the `timeout` key.
 

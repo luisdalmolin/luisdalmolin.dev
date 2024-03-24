@@ -32,8 +32,6 @@ If you are using a Redis Cluster, there are a few [specific configurations](http
 This option needs to be enabled so Laravel treats your Redis connection as a cluster.
 
 {{< highlight php >}}
-<?php 
-
 'cluster' => env('REDIS_CLUSTER_ENABLED', false),
 {{< /highlight >}}
 
@@ -42,8 +40,6 @@ This option needs to be enabled so Laravel treats your Redis connection as a clu
 Your connection now needs to be configured inside the `clusters` array, instead of just the `default` array key you get by default.
 
 {{< highlight php >}}
-<?php 
-
 'cluster' => env('REDIS_CLUSTER_ENABLED', false),
 
 'clusters' => [
@@ -65,8 +61,6 @@ From the docs:
 > If you would like to use native Redis clustering instead of client-side sharding, you may specify this by setting the `options.cluster` configuration value to redis within your application's `config/database.php` configuration file:
 
 {{< highlight php >}}
-<?php 
-
 'options' => [
     'cluster' => env('REDIS_CLUSTER', 'redis'),
 ],

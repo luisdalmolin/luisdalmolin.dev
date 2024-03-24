@@ -19,8 +19,6 @@ Since everything is better with an example, picture a system that needs to perfo
 This is how our controller looks , simple and clean:
 
 {{< highlight php >}}
-<?php 
-
 class UsersControllers
 {
     public function store(UserCreateRequest $request)
@@ -37,8 +35,6 @@ There are a few actions we need to perform when a new user signs up. Placing the
 This seems like a perfect case to make use of event listeners, so that’s what we’re going to do. As a bonus here, we’re respecting one of the [SOLID](https://en.wikipedia.org/wiki/SOLID) principles of software development. The *Open/Closed Principle* (OCP) states that “Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification.”.
 
 {{< highlight php >}}
-<?php 
-
 // EventServiceProvider
 protected $listen = [
     UserCreated::class => [
@@ -62,8 +58,6 @@ So, we’re going to start with our controller. We don’t want our controller t
 Laravel gives us some **really great** tools for testing. The [mocking](https://laravel.com/docs/8.x/mocking) tools are really great, and in this case we are going to make use of `Event::fake()`.
 
 {{< highlight php >}}
-<?php 
-
 class UsersControllerTest extends TestCase
 {
     public function test_create_user()
@@ -92,8 +86,6 @@ Our controller test is only making sure the `UserCreated` event was dispatched. 
 In order to keep this article from getting too long, we’re going to choose one of our listeners and use it as an example, but the concepts apply to any event listener. I’m calling this a unit test here because we’ll be manually instantiating the class and performing its actions, even if it touches filesystem, databases, etc. 
 
 {{< highlight php >}}
-<?php 
-
 class SendUserCreatedNotificationsTest extends TestCase
 {
     public function test_it_send_notifications()
@@ -122,8 +114,6 @@ We have pretty good test coverage here, but we can still do better.
 ### Tip 3 - Assert your event listener is attached to the event you expect
 
 {{< highlight php >}}
-<?php 
-
 class SendUserCreatedNotificationsTest extends TestCase
 {
     public function test_is_attached_to_event()
