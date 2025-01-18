@@ -42,8 +42,8 @@ So here’s the use-case that led me to write this blog-post. I was doing some c
 In this case, I used the following commands:
 
 ```
-git update-index —assume-unchanged app/config/local/database.php
-git update-index —assume-unchanged app/config/local/app.php
+git update-index --assume-unchanged app/config/local/database.php
+git update-index --assume-unchanged app/config/local/app.php
 ```
 
 With this, any changes in `app/config/local/database.php` or `app/config/local/app.php` will *not* show up in case I run `git status`.
